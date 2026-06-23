@@ -1,7 +1,7 @@
 import unittest
 
 # Import your HTMLNode class from the htmlnode file
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_props_to_html(self):
@@ -27,6 +27,18 @@ class TestHTMLNode(unittest.TestCase):
     def third_test(self):
         node2 = HTMLNode(value="Clog.dev", props={"href": "https://www.clog.dev", "target": "_blank"})
         self.assertEqual(node2.props_to_html(), ' href="https://www.clog.dev" target="_blank"')
+
+    def testleaf(self):
+        node3 = LeafNode(tag="b", value="wowwee.com", props={"href": "https://www.wowwee.com", "target": "_blank"})
+        self.assertEqual(node3.to_html(),'<b href="https://www.wowwee.com" target="_blank">wowwee.com</b>')
+
+    def testtag(self):
+        node4 = LeafNode(tag="p", value="Hello, world!")
+        self.assertEqual(node4.to_html(),'<p>Hello, world!</p>')
+
+    def testnotag(self):
+        node5 = LeafNode(None, value="No tag inserted")
+        self.assertEqual(node5.to_html(),'No tag inserted')
 
 
 if __name__ == "__main__":
