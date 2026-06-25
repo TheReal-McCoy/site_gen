@@ -1,7 +1,7 @@
 import unittest
 
 # Import your HTMLNode class from the htmlnode file
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_props_to_html(self):
@@ -39,6 +39,20 @@ class TestHTMLNode(unittest.TestCase):
     def testnotag(self):
         node5 = LeafNode(None, value="No tag inserted")
         self.assertEqual(node5.to_html(),'No tag inserted')
+
+    def test_to_html_with_children(self):
+        child_node = LeafNode("span", "child")
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+
+    def test_to_html_with_grandchildren(self):
+        grandchild_node = LeafNode("b", "grandchild")
+        child_node = ParentNode("span", [grandchild_node])
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(
+            parent_node.to_html(),
+            "<div><span><b>grandchild</b></span></div>",
+        )
 
 
 if __name__ == "__main__":
